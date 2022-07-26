@@ -19,9 +19,14 @@ class WelcomeController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function index(Request $request, ManagerRegistry $doctrine): Response
     {
+        // Get all the tickets form the bdd
+        $tickets = $doctrine->getRepository(Ticket::class)->findAll();
+        
+        // Generate the form to create a ticket
         $ticket = new Ticket();
         $form = $this->createForm(TicketType::class, $ticket);
-
+        
+        // Manage if we get en POST request to create a new ticket
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $doctrine->getManager();
@@ -32,8 +37,10 @@ class WelcomeController extends AbstractController
             return $this->redirectToRoute('app_welcome');
         }
 
+        // Render the view.
         return $this->render('welcome/index.html.twig', [
-            'form' => $form->createView(),
+            'form'      => $form->createView(),
+            'tickets'   => $tickets
         ]);
     }
 }

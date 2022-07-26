@@ -1,22 +1,54 @@
 {% extends 'base.html.twig' %}
 {% form_theme form 'bootstrap_5_layout.html.twig' %}
 
-{% block title %}Hello WelcomeController!{% endblock %}
+{% block title %}Listes des tickets{% endblock %}
 
 {% block body %}
-    <div {{ stimulus_controller('hello') }}>
-        <input type="text" {{ stimulus_target('hello', 'name') }}>
+    <h1>Liste des tickets</h1>
 
-        <button {{ stimulus_action('hello', 'greet') }}>
-            Greet
+    <div class="d-flex justify-content-end">
+        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#ticketModal">
+            Ajouter un ticket
         </button>
 
-        <div {{ stimulus_target('hello', 'output') }}></div>
+        <div class="modal fade" id="ticketModal" tabindex="-1" aria-labelledby="ticketModal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Ajouter un ticket</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        {{ form(form) }}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div>
-        Nouveau ticket
-
-        {{ form(form) }}
-    </div>
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Label</th>
+                <th scope="col">Status</th>
+                <th scope="col">Utilistateur</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ticket in tickets %}
+            <tr>
+                <th scope="row">{{ ticket.id }}</th>
+                <td>{{ ticket.label }}</td>
+                <td>{{ ticket.status.label }}</td>
+                <td>{{ ticket.user.email }}</td>
+                <td></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}
