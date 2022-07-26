@@ -1,2 +1,21 @@
 @import "global";
 
+@media screen and (max-width: 600px) {
+    table {
+        thead {
+            display: none;
+        }
+
+        tr, td, th {
+            display: block;
+            text-align: right;
+        }
+
+        th::before, td::before {
+            content: attr(data-label);
+            float: left;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+    }
+}

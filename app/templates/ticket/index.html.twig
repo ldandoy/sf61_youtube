@@ -6,7 +6,7 @@
 {% block body %}
     <h1>Liste des tickets</h1>
 
-    <div class="d-flex justify-content-end">
+    <div class="d-flex justify-content-end mt-4 mb-4">
         <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#ticketModal">
             <i class="fas fa-plus"></i> Ajouter un ticket
         </button>
@@ -33,7 +33,7 @@
         <thead>
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">Label</th>
+                <th scope="col" width="75%">Label</th>
                 <th scope="col">Status</th>
                 <th scope="col">Utilistateur</th>
                 <th scope="col">Action</th>
@@ -42,11 +42,25 @@
         <tbody>
             {% for ticket in tickets %}
                 <tr>
-                    <th scope="row">{{ ticket.id }}</th>
-                    <td>{{ ticket.label }}</td>
-                    <td>{{ ticket.status.label }}</td>
-                    <td>{{ ticket.user.email }}</td>
-                    <td></td>
+                    <td scope="row" data-label="id">{{ ticket.id }}</td>
+                    <td data-label="label">{{ ticket.label }}</td>
+                    <td data-label="status">
+                        <span class="badge bg-secondary">
+                            {{ ticket.status.label }}
+                        </span>
+                    </td>
+                    <td data-label="utilisateur">{{ ticket.user.email }}</td>
+                    <td data-label="action">
+                        <a href="{{ path('ticket_show', {id: ticket.id}) }}" class="btn btn-info btn-sm">
+                            <i class="fas fa-eye"></i>
+                        </a>
+                        <a href="{{ path('ticket_edit', {id: ticket.id}) }}" class="btn btn-warning btn-sm">
+                            <i class="fas fa-pencil"></i>
+                        </a>
+                        <a href="{{ path('ticket_delete', {id: ticket.id}) }}" class="btn btn-danger btn-sm">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </td>
                 </tr>
             {% endfor %}
         </tbody>

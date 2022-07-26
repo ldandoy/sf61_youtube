@@ -38,9 +38,54 @@ class TicketController extends AbstractController
         }
 
         // Render the view.
-        return $this->render('welcome/index.html.twig', [
+        return $this->render('ticket/index.html.twig', [
             'form'      => $form->createView(),
             'tickets'   => $tickets
+        ]);
+    }
+
+    #[Route('/ticket/{id}/delete', name: 'ticket_delete')]
+    #[IsGranted('ROLE_USER')]
+    public function delete(Ticket $ticket, Request $request, ManagerRegistry $doctrine): Response
+    {
+        $entityManager = $doctrine->getManager();
+        $entityManager->remove($ticket);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_welcome');
+    }
+
+    #[Route('/ticket/{id}/edit', name: 'ticket_edit')]
+    #[IsGranted('ROLE_USER')]
+    public function edit(Ticket $ticket, Request $request, ManagerRegistry $doctrine): Response
+    {
+        $form = $this->createForm(TicketType::class, $ticket);
+        
+        // Manage if we get en POST request to create a new ticket
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $doctrine->getManager();
+            
+            $ticket = $form->getData();
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_welcome');
+        }
+
+        // Render the view.
+        return $this->render('ticket/edit.html.twig', [
+            'form'      => $form->createView(),
+            'ticket'    => $ticket
+        ]);
+    }
+
+    #[Route('/ticket/{id}', name: 'ticket_show')]
+    #[IsGranted('ROLE_USER')]
+    public function show(Ticket $ticket): Response
+    {
+        // Render the view.
+        return $this->render('ticket/show.html.twig', [
+            'ticket'    => $ticket
         ]);
     }
 }

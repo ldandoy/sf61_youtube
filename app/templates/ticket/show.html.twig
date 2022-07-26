@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Listes des tickets{% endblock %}
+
+{% block body %}
+    <h1>Liste des tickets</h1>
+
+    <div>
+        <a href="{{ path('app_welcome') }}" class="btn btn-light btn-sm">
+            <i class="fas fa-back"></i>
+        </a>
+        <a href="{{ path('ticket_edit', {id: ticket.id}) }}" class="btn btn-warning btn-sm">
+            <i class="fas fa-pencil"></i>
+        </a>
+        <a href="{{ path('ticket_delete', {id: ticket.id}) }}" class="btn btn-danger btn-sm">
+            <i class="fas fa-trash"></i>
+        </a>
+    </div>
+
+    <div>
+        <b>ID</b>:<br /> {{ ticket.id }}<br /><br />
+        <b>Label</b>:<br /> {{ ticket.label }}<br /><br />
+        <b>Status</b>:<br /> {{ ticket.status.label }}<br /><br />
+        <b>Utilistateur</b>:<br /> {{ ticket.user.email }}<br /><br />
+        <b>Description</b>:<br /> {{ ticket.description }}<br /><br />
+    </div>
+
+    <div class="d-flex justify-content-start">
+        <a href="{{ path('app_welcome') }}" class="btn btn-light">
+            Retour
+        </a>
+    </div>
+                    
+{% endblock %}
