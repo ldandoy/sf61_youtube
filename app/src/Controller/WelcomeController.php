@@ -4,17 +4,36 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Doctrine\Persistence\ManagerRegistry;
+
+
+use App\Entity\Ticket;
+use App\Form\TicketType;
 
 class WelcomeController extends AbstractController
 {
     #[Route('/', name: 'app_welcome')]
     #[IsGranted('ROLE_USER')]
-    public function index(): Response
+    public function index(Request $request, ManagerRegistry $doctrine): Response
     {
+        $ticket = new Ticket();
+        $form = $this->createForm(TicketType::class, $ticket);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $doctrine->getManager();
+            $ticket = $form->getData();
+            $entityManager->persist($ticket);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_welcome');
+        }
+
         return $this->render('welcome/index.html.twig', [
-            'controller_name' => 'WelcomeController',
+            'form' => $form->createView(),
         ]);
     }
 }
