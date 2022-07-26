@@ -8,7 +8,7 @@
 
     <div class="d-flex justify-content-end">
         <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#ticketModal">
-            Ajouter un ticket
+            <i class="fas fa-plus"></i> Ajouter un ticket
         </button>
 
         <div class="modal fade" id="ticketModal" tabindex="-1" aria-labelledby="ticketModal" aria-hidden="true">
@@ -41,13 +41,13 @@
         </thead>
         <tbody>
             {% for ticket in tickets %}
-            <tr>
-                <th scope="row">{{ ticket.id }}</th>
-                <td>{{ ticket.label }}</td>
-                <td>{{ ticket.status.label }}</td>
-                <td>{{ ticket.user.email }}</td>
-                <td></td>
-            </tr>
+                <tr>
+                    <th scope="row">{{ ticket.id }}</th>
+                    <td>{{ ticket.label }}</td>
+                    <td>{{ ticket.status.label }}</td>
+                    <td>{{ ticket.user.email }}</td>
+                    <td></td>
+                </tr>
             {% endfor %}
         </tbody>
     </table>

@@ -13,7 +13,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\Ticket;
 use App\Form\TicketType;
 
-class WelcomeController extends AbstractController
+class TicketController extends AbstractController
 {
     #[Route('/', name: 'app_welcome')]
     #[IsGranted('ROLE_USER')]
