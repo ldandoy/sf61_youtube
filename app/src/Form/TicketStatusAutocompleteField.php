@@ -25,7 +25,7 @@ class TicketStatusAutocompleteField extends AbstractType
             //'security' => 'ROLE_SOMETHING',
 
             'tom_select_options' => [
-                'create' => "true"
+                'create' => true
             ]
         ]);
     }
