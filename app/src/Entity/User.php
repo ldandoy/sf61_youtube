@@ -37,9 +37,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Ticket::class, orphanRemoval: true)]
     private Collection $tickets;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: TicketComment::class)]
+    private Collection $comments;
+
+    #[ORM\ManyToMany(targetEntity: Ticket::class, inversedBy: 'users')]
+    private Collection $assigns;
+
     public function __construct()
     {
         $this->tickets = new ArrayCollection();
+        $this->comments = new ArrayCollection();
+        $this->assigns = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -149,6 +157,87 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             if ($ticket->getUser() === $this) {
                 $ticket->setUser(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, TicketComment>
+     */
+    public function getTicketComments(): Collection
+    {
+        return $this->ticketComments;
+    }
+
+    public function addTicketComment(TicketComment $ticketComment): self
+    {
+        if (!$this->ticketComments->contains($ticketComment)) {
+            $this->ticketComments[] = $ticketComment;
+            $ticketComment->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTicketComment(TicketComment $ticketComment): self
+    {
+        if ($this->ticketComments->removeElement($ticketComment)) {
+            // set the owning side to null (unless already changed)
+            if ($ticketComment->getUser() === $this) {
+                $ticketComment->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getAssigns(): Collection
+    {
+        return $this->assigns;
+    }
+
+    public function addAssign(self $assign): self
+    {
+        if (!$this->assigns->contains($assign)) {
+            $this->assigns[] = $assign;
+        }
+
+        return $this;
+    }
+
+    public function removeAssign(self $assign): self
+    {
+        $this->assigns->removeElement($assign);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(self $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+            $user->addAssign($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(self $user): self
+    {
+        if ($this->users->removeElement($user)) {
+            $user->removeAssign($this);
         }
 
         return $this;

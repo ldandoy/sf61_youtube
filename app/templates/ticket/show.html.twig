@@ -18,10 +18,10 @@
     </div>
 
     <div class="row mt-4 mb-4">
-        <div class="col">
-            <img src="{{ vich_uploader_asset(ticket) }}" alt="{{ ticket.label }}">
+        <div class="col-lg-4">
+            <img src="{{ vich_uploader_asset(ticket) }}" alt="{{ ticket.label }}" class="img-fluid img-thumbnail">
         </div>
-        <div class="col">
+        <div class="col-lg-4">
             <b>ID</b>:<br /> {{ ticket.id }}<br /><br />
             <b>Label</b>:<br /> {{ ticket.label }}<br /><br />
             <b>Status</b>:<br /> {{ ticket.status.label }}<br /><br />

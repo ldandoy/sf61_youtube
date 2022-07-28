@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\TicketRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
@@ -41,6 +43,14 @@ class Ticket
 
     #[ORM\Column(type: 'datetime')]
     private ?\DateTimeInterface $updatedAt = null;
+
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'assigns')]
+    private Collection $users;
+
+    public function __construct()
+    {
+        $this->users = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -129,5 +139,32 @@ class Ticket
     public function getImageSize(): ?int
     {
         return $this->imageSize;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+            $user->addAssign($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        if ($this->users->removeElement($user)) {
+            $user->removeAssign($this);
+        }
+
+        return $this;
     }
 }
