@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Vich\UploaderBundle\Form\Type\VichFileType;
 
 class TicketType extends AbstractType
 {
@@ -17,6 +18,7 @@ class TicketType extends AbstractType
             ->add('description')
             ->add('status', TicketStatusAutocompleteField::class)
             ->add('user', UserAutocompleteField::class)
+            ->add('imageFile', VichFileType::class)
             ->add('save', SubmitType::class)
         ;
     }

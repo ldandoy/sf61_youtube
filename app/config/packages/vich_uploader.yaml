@@ -1,0 +1,19 @@
+vich_uploader:
+    db_driver: orm
+
+    metadata:
+        type: attribute
+
+    #mappings:
+    #    products:
+    #        uri_prefix: /images/products
+    #        upload_destination: '%kernel.project_dir%/public/images/products'
+
+    mappings:
+        ticket_images:
+            uri_prefix:         '%app.path.ticket_images%'
+            upload_destination: '%kernel.project_dir%/public%app.path.ticket_images%'
+
+            inject_on_load: false
+            delete_on_update: true
+            delete_on_remove: true

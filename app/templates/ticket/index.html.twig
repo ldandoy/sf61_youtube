@@ -33,7 +33,8 @@
         <thead>
             <tr>
                 <th scope="col">#</th>
-                <th scope="col" width="75%">Label</th>
+                <th scope="col">Image</th>
+                <th scope="col" width="70%">Label</th>
                 <th scope="col">Status</th>
                 <th scope="col">Utilistateur</th>
                 <th scope="col">Action</th>
@@ -43,6 +44,7 @@
             {% for ticket in tickets %}
                 <tr>
                     <td scope="row" data-label="id">{{ ticket.id }}</td>
+                    <td data-label="image"><img src="{{ vich_uploader_asset(ticket) }}" alt="{{ ticket.label }}" width="50"></td>
                     <td data-label="label">{{ ticket.label }}</td>
                     <td data-label="status">
                         <span class="badge bg-secondary">

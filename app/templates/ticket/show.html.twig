@@ -5,7 +5,7 @@
 {% block body %}
     <h1>Liste des tickets</h1>
 
-    <div>
+    <div class="mt-4 mb-4">
         <a href="{{ path('app_welcome') }}" class="btn btn-light btn-sm">
             <i class="fas fa-back"></i>
         </a>
@@ -17,12 +17,17 @@
         </a>
     </div>
 
-    <div>
-        <b>ID</b>:<br /> {{ ticket.id }}<br /><br />
-        <b>Label</b>:<br /> {{ ticket.label }}<br /><br />
-        <b>Status</b>:<br /> {{ ticket.status.label }}<br /><br />
-        <b>Utilistateur</b>:<br /> {{ ticket.user.email }}<br /><br />
-        <b>Description</b>:<br /> {{ ticket.description }}<br /><br />
+    <div class="row mt-4 mb-4">
+        <div class="col">
+            <img src="{{ vich_uploader_asset(ticket) }}" alt="{{ ticket.label }}">
+        </div>
+        <div class="col">
+            <b>ID</b>:<br /> {{ ticket.id }}<br /><br />
+            <b>Label</b>:<br /> {{ ticket.label }}<br /><br />
+            <b>Status</b>:<br /> {{ ticket.status.label }}<br /><br />
+            <b>Utilistateur</b>:<br /> {{ ticket.user.email }}<br /><br />
+            <b>Description</b>:<br /> {{ ticket.description }}<br /><br />
+        </div>
     </div>
 
     <div class="d-flex justify-content-start">
