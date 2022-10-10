@@ -1,0 +1,12 @@
+<div {{ attributes }} class="m-4">
+    <input
+        type="search"
+        name="query"
+        value="{{ query }}"
+        data-model="on(change)|query"
+    />
+
+    {% for ticket in this.allTickets %}
+        {{ component('ticket', {'id': ticket.id}) }}
+    {% endfor %}
+</div>

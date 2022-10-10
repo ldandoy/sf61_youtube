@@ -39,6 +39,21 @@ class TicketRepository extends ServiceEntityRepository
         }
     }
 
+    public function findByQuery(string $query): array
+    {
+        if (empty($query)) {
+            return [];
+        }
+        
+        return $this->createQueryBuilder('b')
+            ->andWhere('b.label LIKE :query')
+            ->setParameter('query', '%'.$query.'%')
+            ->orderBy('b.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
 //    /**
 //     * @return Ticket[] Returns an array of Ticket objects
 //     */
